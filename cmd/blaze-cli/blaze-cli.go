@@ -3,11 +3,12 @@ package main
 import (
 	"log"
 
-	blaze "github.com/BladekTech/Blaze/pkg/client"
+	blaze "github.com/BladekTech/blaze/pkg/client"
+	"github.com/BladekTech/blaze/pkg/protocol"
 )
 
 func main() {
-	client := blaze.NewClient("localhost", 6379)
+	client := blaze.NewClient("localhost", protocol.DEFAULT_PORT)
 	// client.Set("key", "value")
 	value := client.Get("key")
 	log.Println("key", value)
