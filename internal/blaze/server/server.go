@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/BladekTech/Blaze/internal/blaze/store"
-	"github.com/BladekTech/Blaze/pkg/protocol"
+	"github.com/BladekTech/blaze/internal/blaze/store"
+	"github.com/BladekTech/blaze/pkg/protocol"
 )
 
 type Listener struct {

@@ -1,16 +1,27 @@
 package main
 
 import (
-	"github.com/BladekTech/Blaze/internal/blaze/server"
-	"github.com/BladekTech/Blaze/internal/blaze/store"
+	"os"
+
+	"github.com/BladekTech/blaze/internal/blaze/server"
+	"github.com/BladekTech/blaze/internal/blaze/store"
+	"github.com/BladekTech/blaze/internal/blaze/util"
+	"github.com/BladekTech/blaze/pkg/protocol"
 )
 
 func main() {
-	listener := server.StartTcpServer(6379)
+	port := protocol.DEFAULT_PORT
+
+	if len(os.Args) > 1 {
+		port = int16(util.Atoi(os.Args[1]))
+	}
+
+	listener := server.StartTcpServer(port)
 	store := store.NewStore()
 
 	for {
 		conn := listener.Accept()
 		go conn.HandleClient(store)
 	}
+
 }

@@ -5,3 +5,4 @@ node_modules/
 tmp/
 # docs coming Soon(TM)
 docs
+cmd/blaze-cli/

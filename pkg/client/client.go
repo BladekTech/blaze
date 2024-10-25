@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/BladekTech/Blaze/internal/blaze/util"
+	"github.com/BladekTech/blaze/internal/blaze/util"
 )
 
 type Client struct {

@@ -1,6 +1,6 @@
 package protocol
 
-import "github.com/BladekTech/Blaze/internal/blaze/util"
+import "github.com/BladekTech/blaze/internal/blaze/util"
 
 type Command struct {
 	Name string
@@ -11,6 +11,8 @@ type Status int
 type Data struct {
 	inner string
 }
+
+const DEFAULT_PORT int16 = 7854
 
 const (
 	STATUS_OK Status = iota

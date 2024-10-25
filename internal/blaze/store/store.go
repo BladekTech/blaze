@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/BladekTech/Blaze/pkg/protocol"
+	"github.com/BladekTech/blaze/pkg/protocol"
 )
 
 type Store struct {
