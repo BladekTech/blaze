@@ -44,3 +44,7 @@ clean-cli:
 
 clean-server:
 	rm -f dist/bin/blaze-server.exe
+
+update-pkg-cache:
+    GOPROXY=https://proxy.golang.org GO111MODULE=on \
+    go get github.com/BladekTech/blaze@v$(VERSION)
