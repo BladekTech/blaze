@@ -3,6 +3,7 @@
 .PHONY: package
 .PHONY: cli
 .PHONY: server
+.PHONY: update-pkg-cache
 
 package: build docs examples
 	tar -cvzf dist 
@@ -44,3 +45,7 @@ clean-cli:
 
 clean-server:
 	rm -f dist/bin/blaze-server.exe
+
+update-pkg-cache:
+    GOPROXY=https://proxy.golang.org GO111MODULE=on \
+    go get github.com/BladekTech/blaze@v$(VERSION)
