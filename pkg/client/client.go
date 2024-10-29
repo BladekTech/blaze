@@ -116,3 +116,16 @@ func (client Client) Update(key string, value string) {
 		log.Println("Error:", response)
 	}
 }
+
+func (client Client) Exists(key string) bool {
+	conn := client.connect()
+	conn.write("exists\n" + key)
+	response := conn.read()
+	if !util.StartsWith(response, "+") {
+		strings.Replace(response, "+", "", 1)
+		return util.StartsWith(response, "y")
+	} else {
+		log.Println("Error:", response)
+		return false
+	}
+}

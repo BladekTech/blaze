@@ -156,6 +156,21 @@ func processCommand(command protocol.Command, store store.Store) protocol.Result
 				Data:   protocol.NewData("+update\n"),
 			}
 		}
+	case protocol.CMD_EXISTS:
+		exists := store.Exists(command.Args[0])
+		if exists {
+			return protocol.Result{
+				Status: 200,
+				Error:  nil,
+				Data:   protocol.NewData("+y\n"),
+			}
+		} else {
+			return protocol.Result{
+				Status: 200,
+				Error:  nil,
+				Data:   protocol.NewData("+n\n"),
+			}
+		}
 	case protocol.CMD_PING:
 		return protocol.Result{
 			Status: protocol.STATUS_OK,

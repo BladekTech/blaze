@@ -30,6 +30,7 @@ const (
 	CMD_DELETE string = "delete"
 	CMD_CLEAR  string = "clear"
 	CMD_UPDATE string = "update"
+	CMD_EXISTS string = "exists"
 )
 
 type Result struct {
