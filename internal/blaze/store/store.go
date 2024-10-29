@@ -83,6 +83,17 @@ func (store Store) Delete(key string) StoreResult {
 	}
 }
 
+func (store Store) Clear() StoreResult {
+	for k := range store.Pairs {
+		delete(store.Pairs, k)
+	}
+
+	return StoreResult{
+		Result: nil,
+		Status: protocol.STATUS_OK,
+	}
+}
+
 func (store Store) Exists(key string) bool {
 	return store.Pairs[key] != ""
 }

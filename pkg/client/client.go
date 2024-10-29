@@ -12,10 +12,10 @@ import (
 
 type Client struct {
 	addr string
-	conn *Conn
+	conn *conn
 }
 
-type Conn struct {
+type conn struct {
 	inner *net.TCPConn
 }
 
@@ -25,27 +25,27 @@ func NewClient(ip string, port int16) Client {
 	}
 }
 
-func (client Client) connect() Conn {
+func (client Client) connect() conn {
 	addr, err := net.ResolveTCPAddr("tcp", client.addr)
 	if err != nil {
 		log.Println("ResolveTCPAddr Error:", err)
 		os.Exit(1)
 	}
 
-	conn, err := net.DialTCP("tcp", nil, addr)
+	connection, err := net.DialTCP("tcp", nil, addr)
 	if err != nil {
 		log.Println("DialTCP Error:", err)
 		os.Exit(1)
 	}
 
-	return Conn{
-		inner: conn,
+	return conn{
+		inner: connection,
 	}
 }
 
-func (conn Conn) read() string {
+func (connection conn) read() string {
 	buffer := make([]byte, 1024)
-	n, err := conn.inner.Read(buffer)
+	n, err := connection.inner.Read(buffer)
 	if err != nil {
 		log.Println("Error:", err)
 		os.Exit(1)
@@ -54,8 +54,8 @@ func (conn Conn) read() string {
 	return str
 }
 
-func (conn Conn) write(data string) {
-	conn.inner.Write(util.StrToByteSlice(data + "\n"))
+func (connection conn) write(data string) {
+	connection.inner.Write(util.StrToByteSlice(data + "\n"))
 }
 
 func (client Client) Get(key string) string {
@@ -63,7 +63,7 @@ func (client Client) Get(key string) string {
 	conn.write("get\n" + key)
 	response := conn.read()
 	if !util.StartsWith(response, "+") {
-		log.Println("Error: ", response, util.StrToByteSlice(response))
+		log.Println("Error:", response)
 		return ""
 	} else {
 		return strings.Replace(response, "+", "", 1)
@@ -75,7 +75,7 @@ func (client Client) Set(key string, value string) {
 	conn.write("set\n" + key + "\n" + value)
 	response := conn.read()
 	if !util.StartsWith(response, "+") {
-		log.Println("Error: ", response, util.StrToByteSlice(response))
+		log.Println("Error:", response)
 	}
 }
 
@@ -84,8 +84,35 @@ func (client Client) Ping() {
 	conn.write("ping")
 	response := conn.read()
 	if !util.StartsWith(response, "+") {
-		log.Println("Error: ", response, util.StrToByteSlice(response))
+		log.Println("Error:", response)
 	} else {
 		log.Println("Pong!")
+	}
+}
+
+func (client Client) Clear() {
+	conn := client.connect()
+	conn.write("clear")
+	response := conn.read()
+	if !util.StartsWith(response, "+") {
+		log.Println("Error:", response)
+	}
+}
+
+func (client Client) Delete(key string) {
+	conn := client.connect()
+	conn.write("delete\n" + key)
+	response := conn.read()
+	if !util.StartsWith(response, "+") {
+		log.Println("Error:", response)
+	}
+}
+
+func (client Client) Update(key string, value string) {
+	conn := client.connect()
+	conn.write("update\n" + key + "\n" + value)
+	response := conn.read()
+	if !util.StartsWith(response, "+") {
+		log.Println("Error:", response)
 	}
 }

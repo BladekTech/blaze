@@ -9,7 +9,10 @@ import (
 
 func main() {
 	client := blaze.NewClient("localhost", protocol.DEFAULT_PORT)
-	// client.Set("key", "value")
-	value := client.Get("key")
-	log.Println("key", value)
+	client.Set("key", "value")
+	result := client.Get("key")
+	log.Println(result)
+	client.Clear()
+	result2 := client.Get("key")
+	log.Println(result2)
 }

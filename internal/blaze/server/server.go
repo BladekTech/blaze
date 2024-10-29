@@ -108,6 +108,54 @@ func processCommand(command protocol.Command, store store.Store) protocol.Result
 				Data:   protocol.NewData("+set\n"),
 			}
 		}
+	case protocol.CMD_DELETE:
+		result := store.Delete(command.Args[0])
+		if result.Status != protocol.STATUS_OK {
+			log.Println("Error:", result.Status)
+			return protocol.Result{
+				Status: result.Status,
+				Error:  nil,
+				Data:   protocol.NewData("-delete\n"),
+			}
+		} else {
+			return protocol.Result{
+				Status: result.Status,
+				Error:  nil,
+				Data:   protocol.NewData("+delete\n"),
+			}
+		}
+	case protocol.CMD_CLEAR:
+		result := store.Clear()
+		if result.Status != protocol.STATUS_OK {
+			log.Println("Error:", result.Status)
+			return protocol.Result{
+				Status: result.Status,
+				Error:  nil,
+				Data:   protocol.NewData("-clear\n"),
+			}
+		} else {
+			return protocol.Result{
+				Status: result.Status,
+				Error:  nil,
+				Data:   protocol.NewData("+clear\n"),
+			}
+		}
+	case protocol.CMD_UPDATE:
+		result := store.Update(command.Args[0], command.Args[1])
+		if result.Status != protocol.STATUS_OK {
+			log.Println("Error:", result.Status)
+			return protocol.Result{
+				Status: result.Status,
+				Error:  nil,
+				Data:   protocol.NewData("-update\n"),
+			}
+		} else {
+			return protocol.Result{
+				Status: result.Status,
+				Error:  nil,
+				Data:   protocol.NewData("+update\n"),
+			}
+		}
 	case protocol.CMD_PING:
 		return protocol.Result{
 			Status: protocol.STATUS_OK,

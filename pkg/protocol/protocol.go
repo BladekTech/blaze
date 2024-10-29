@@ -24,9 +24,12 @@ const (
 )
 
 const (
-	CMD_PING string = "ping"
-	CMD_GET  string = "get"
-	CMD_SET  string = "set"
+	CMD_PING   string = "ping"
+	CMD_GET    string = "get"
+	CMD_SET    string = "set"
+	CMD_DELETE string = "delete"
+	CMD_CLEAR  string = "clear"
+	CMD_UPDATE string = "update"
 )
 
 type Result struct {
