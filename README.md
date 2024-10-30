@@ -1,12 +1,12 @@
 # Blaze
 
-<center>
+<div align="center">
 
-<img src="assets/png/icon-with-name.png" width=50% alt="Blaze Logo">
+<img src="assets/png/icon-with-name.png" width="256px" alt="Blaze Logo">
 
 A fast, temporary key-value store
 
-</center>
+</div>
 
 ## Table of Contents
 
