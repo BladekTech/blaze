@@ -58,6 +58,19 @@ func (connection conn) write(data string) {
 	connection.inner.Write(util.StrToByteSlice(data + "\n"))
 }
 
+func (client Client) Exists(key string) bool {
+	conn := client.connect()
+	conn.write("exists\n" + key)
+	response := conn.read()
+	if !util.StartsWith(response, "+") {
+		strings.Replace(response, "+", "", 1)
+		return util.StartsWith(response, "y")
+	} else {
+		log.Println("Error:", response)
+		return false
+	}
+}
+
 func (client Client) Get(key string) string {
 	conn := client.connect()
 	conn.write("get\n" + key)
@@ -101,10 +114,12 @@ func (client Client) Clear() {
 
 func (client Client) Delete(key string) {
 	conn := client.connect()
-	conn.write("delete\n" + key)
-	response := conn.read()
-	if !util.StartsWith(response, "+") {
-		log.Println("Error:", response)
+	if client.Exists(key) {
+		conn.write("delete\n" + key)
+		response := conn.read()
+		if !util.StartsWith(response, "+") {
+			log.Println("Error:", response)
+		}
 	}
 }
 
@@ -114,18 +129,5 @@ func (client Client) Update(key string, value string) {
 	response := conn.read()
 	if !util.StartsWith(response, "+") {
 		log.Println("Error:", response)
-	}
-}
-
-func (client Client) Exists(key string) bool {
-	conn := client.connect()
-	conn.write("exists\n" + key)
-	response := conn.read()
-	if !util.StartsWith(response, "+") {
-		strings.Replace(response, "+", "", 1)
-		return util.StartsWith(response, "y")
-	} else {
-		log.Println("Error:", response)
-		return false
 	}
 }

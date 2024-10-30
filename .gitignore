@@ -3,6 +3,6 @@ blaze.tar.gz
 node_modules/
 .vscode
 tmp/
-# docs coming Soon(TM)
+.air.toml
+# The following are Coming Soon(TM)
 docs
-cmd/blaze-cli/
